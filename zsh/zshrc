@@ -1,3 +1,8 @@
+# check dependency
+dependency_exists() {
+    type "$1" > /dev/null 2>&1
+}
+
 # Autoload the ZSH completion to avoid kubectl autocomplete error
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
@@ -19,24 +24,34 @@ plugins=(git autojump kubectl aws)
 source $ZSH/oh-my-zsh.sh
 
 # HSTR configuration
-setopt histignorespace                      # skip cmds w/ leading space from history
 export HISTFILE=~/.zsh_history              # set the history file
-export HSTR_CONFIG=prompt-bottom,hide-help,raw-history-view,hicolor 
-bindkey -s "\C-r" "\C-a hstr -- \C-j"       # bind hstr to Ctrl-r (for Vi mode check doc)
+
+if dependency_exists hstr; then
+  setopt histignorespace                      # skip cmds w/ leading space from history
+  export HSTR_CONFIG=prompt-bottom,hide-help,raw-history-view,hicolor
+  bindkey -s "\C-r" "\C-a hstr -- \C-j"       # bind hstr to Ctrl-r (for Vi mode check doc)
+fi
 
 # kubePS1 config
-source /usr/local/opt/kube-ps1/share/kube-ps1.sh
-export KUBE_PS1_SYMBOL_ENABLE=false
-PS1='$(kube_ps1)'$PS1
+if [ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]; then
+  source /usr/local/opt/kube-ps1/share/kube-ps1.sh
+  export KUBE_PS1_SYMBOL_ENABLE=false
+  PS1='$(kube_ps1)'$PS1
+fi
 
 # Set up some sensible aliases
 alias kx="kubectx"
-alias vim="nvim"
-alias vi="nvim"
-export EDITOR=nvim
 
-# tmux all the time
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+if dependency_exists nvim; then
+  alias vim="nvim"
+  alias vi="nvim"
+  export EDITOR=nvim
+fi
+
+if dependency_exists tmux; then
+  # tmux all the time
+  [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+fi
 
 # Add env secrets
 if [ -f ~/.env_private ]; then
