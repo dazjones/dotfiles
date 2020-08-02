@@ -1,0 +1,44 @@
+# Autoload the ZSH completion to avoid kubectl autocomplete error
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
+# Add Go paths to PATH
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH
+export PATH=$PATH:$GOBIN
+
+# Use oh-my-zsh
+export ZSH="/Users/darrenjones/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+
+# Enable oh-my-zsh plugins
+plugins=(git autojump kubectl aws)
+
+# Init oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# HSTR configuration
+setopt histignorespace                      # skip cmds w/ leading space from history
+export HISTFILE=~/.zsh_history              # set the history file
+export HSTR_CONFIG=prompt-bottom,hide-help,raw-history-view,hicolor 
+bindkey -s "\C-r" "\C-a hstr -- \C-j"       # bind hstr to Ctrl-r (for Vi mode check doc)
+
+# kubePS1 config
+source /usr/local/opt/kube-ps1/share/kube-ps1.sh
+export KUBE_PS1_SYMBOL_ENABLE=false
+PS1='$(kube_ps1)'$PS1
+
+# Set up some sensible aliases
+alias kx="kubectx"
+alias vim="nvim"
+alias vi="nvim"
+export EDITOR=nvim
+
+# tmux all the time
+[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+
+# Add env secrets
+if [ -f ~/.env_private ]; then
+  source ~/.env_private
+fi
