@@ -29,6 +29,7 @@ link_dotfile() {
 }
 
 link_dotfile "zsh/zshrc" ".zshrc"
+link_dotfile "zsh/aliases" ".aliases"
 link_dotfile "tmux/tmux" ".tmux"
 link_dotfile "tmux/tmux.conf" ".tmux.conf"
 link_dotfile "vim/vim" ".vim"

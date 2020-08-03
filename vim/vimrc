@@ -143,3 +143,4 @@ endif
 " highlight character at 80 columns
 highlight ColorColumn ctermbg=DarkGrey
 call matchadd('ColorColumn', '\%81v', 100)
+

@@ -39,18 +39,16 @@ if [ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]; then
   PS1='$(kube_ps1)'$PS1
 fi
 
-# Set up some sensible aliases
-alias kx="kubectx"
 
-if dependency_exists nvim; then
-  alias vim="nvim"
-  alias vi="nvim"
-  export EDITOR=nvim
-fi
 
 if dependency_exists tmux; then
   # tmux all the time
   [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+fi
+
+# Add aliases
+if [ -f ~/.aliases ]; then
+  source ~/.aliases
 fi
 
 # Add env secrets
