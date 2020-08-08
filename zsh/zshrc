@@ -39,8 +39,7 @@ if [ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]; then
   PS1='$(kube_ps1)'$PS1
 fi
 
-
-
+# tmux config
 if dependency_exists tmux; then
   # tmux all the time
   [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
