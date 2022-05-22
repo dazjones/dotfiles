@@ -114,6 +114,10 @@
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
 
+;; Fix some color annoyances with nord theme
+(set-face-foreground 'font-lock-comment-face "#B48EAD") ;; Comment color
+(set-face-attribute 'region nil :background "#ECEFF4" :foreground "#2E3440") ;; Visual selction
+
 (use-package all-the-icons)
 
 (use-package doom-modeline
@@ -356,3 +360,6 @@
  "gf"  'magit-fetch
  "gF"  'magit-fetch-all
  "gr"  'magit-rebase)
+
+(setq dired-listing-switches "-l --group-directories-first")
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
