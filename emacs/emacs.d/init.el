@@ -48,7 +48,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
+   '(evil-magit counsel-projectile vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
 
 (use-package no-littering)
 
@@ -342,7 +342,6 @@
 (global-auto-revert-mode +1)
 
 (use-package magit
-  :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
@@ -366,3 +365,24 @@
 (setq dired-listing-switches "-l --group-directories-first")
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/code")
+    (setq projectile-project-search-path '("~/code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :after projectile
+  :config (counsel-projectile-mode))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
