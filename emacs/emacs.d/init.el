@@ -43,7 +43,12 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 (custom-set-variables
- )
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
 
 (use-package no-littering)
 
@@ -113,10 +118,6 @@
 
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
-
-;; Fix some color annoyances with nord theme
-(set-face-foreground 'font-lock-comment-face "#B48EAD") ;; Comment color
-(set-face-attribute 'region nil :background "#ECEFF4" :foreground "#2E3440") ;; Visual selction
 
 (use-package all-the-icons)
 
@@ -363,3 +364,4 @@
 
 (setq dired-listing-switches "-l --group-directories-first")
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
