@@ -362,6 +362,7 @@
  "gF"  'magit-fetch-all
  "gr"  'magit-rebase)
 
+(require 'dired-x)
 (setq dired-listing-switches "-l --group-directories-first")
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
