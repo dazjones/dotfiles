@@ -380,3 +380,9 @@
 (use-package counsel-projectile
   :after projectile
   :config (counsel-projectile-mode))
+
+
+(let ((personal-settings "~/.emacs.d/personal.el"))
+ (when (file-exists-p personal-settings)
+   (load-file personal-settings))
+)
