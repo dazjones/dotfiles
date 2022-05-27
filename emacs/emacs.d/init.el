@@ -16,10 +16,11 @@
 
 ;; Initialize package sources
 (require 'package)
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -33,6 +34,9 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 (setq default-directory "~/")
+
+(use-package org
+    :pin gnu)
 
 (use-package auto-package-update
   :custom
@@ -48,7 +52,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(evil-magit counsel-projectile vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
+   '(org-roam-server org-roam-ui org-roam evil-magit counsel-projectile vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
 
 (use-package no-littering)
 
@@ -386,3 +390,30 @@
  (when (file-exists-p personal-settings)
    (load-file personal-settings))
 )
+
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/emacs/roam-notes")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i" . completion-at-point)
+	 :map org-roam-dailies-map
+	 ("Y" . org-roam-dailies-capture-yesterday)
+	 ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  :config
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+    (org-roam-db-autosync-mode))
+ (setq org-return-follows-link  t)
+
+(use-package org-roam-ui
+  :ensure t
+  :config
+  (setq org-roam-ui-open-on-start nil))
