@@ -52,9 +52,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-roam-server org-roam-ui org-roam evil-magit counsel-projectile vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
+   '(ox-hugo org-roam-server org-roam-ui org-roam evil-magit counsel-projectile vterm yaml-mode which-key visual-fill-column use-package simple-httpd projectile no-littering markdown-mode magit ivy-prescient hydra helpful general evil-collection doom-themes doom-modeline dired-single dired-open dired-hide-dotfiles dashboard counsel command-log-mode centaur-tabs auto-package-update all-the-icons-dired ace-window)))
 
 (use-package no-littering)
+
+(eval-when-compile
+    (require 'cl-lib))
 
 (setq inhibit-startup-message t)
 
@@ -64,6 +67,9 @@
 
 ;; Set up the visible bell
 (setq visible-bell t)
+
+(eval-when-compile
+    (require 'cl-lib))
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -391,13 +397,19 @@
    (load-file personal-settings))
 )
 
+(setq org-roam-directory "~/emacs/roam-notes")
+
 (use-package org-roam
   :ensure t
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/emacs/roam-notes")
+  (setq org-id-link-to-org-use-id t)
   (org-roam-completion-everywhere t)
+  (setq org-roam-mode-sections
+	(list #'org-roam-backlinks-insert-section
+	      #'org-roam-reflinks-insert-section
+	                    #'org-roam-unlinked-references-insert-section))
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
@@ -412,8 +424,3 @@
   (require 'org-roam-dailies) ;; Ensure the keymap is available
     (org-roam-db-autosync-mode))
  (setq org-return-follows-link  t)
-
-(use-package org-roam-ui
-  :ensure t
-  :config
-  (setq org-roam-ui-open-on-start nil))
