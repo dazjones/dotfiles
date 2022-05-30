@@ -1,4 +1,5 @@
-#!/bin/sh
+#
+/bin/sh
 
 red() {
   echo " $(tput setaf 1)$*$(tput setaf 9)"
@@ -14,6 +15,7 @@ green() {
 
 link_dotfile() {
   source="$1"
+  :q
   dest="$2"
   full_dest="$HOME/$dest"
   if [ -e "$full_dest" ] || [ -L "$full_dest" ]; then

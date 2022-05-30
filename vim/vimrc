@@ -51,7 +51,7 @@ set lbr
 set backspace=indent,eol,start
 
 " Change colorscheme from default to delek
-colorscheme nord
+colorscheme catppuccin_frappe
 
 " Limit line length for git commit messages
 au FileType gitcommit set tw=72
