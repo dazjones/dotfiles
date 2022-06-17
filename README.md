@@ -14,4 +14,4 @@ Run `./install.sh` to link dotfiles.
 
 Tested on MacOS and various Linux distros.
 
-Assumes a set up of zsh, vim, tmux & emacs.
+Assumes a set up of zsh, vim, & tmux.
