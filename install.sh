@@ -28,7 +28,6 @@ link_dotfile() {
   fi
 }
 
-
 link_dotfile "zsh/zshrc" ".zshrc"
 link_dotfile "zsh/aliases" ".aliases"
 link_dotfile "tmux/tmux" ".tmux"
