@@ -14,6 +14,7 @@ green() {
 
 link_dotfile() {
   source="$1"
+  :q
   dest="$2"
   full_dest="$HOME/$dest"
   if [ -e "$full_dest" ] || [ -L "$full_dest" ]; then
