@@ -28,7 +28,6 @@ link_dotfile() {
   fi
 }
 
-mkdir ~/.emacs.d/
 
 link_dotfile "zsh/zshrc" ".zshrc"
 link_dotfile "zsh/aliases" ".aliases"
@@ -36,4 +35,3 @@ link_dotfile "tmux/tmux" ".tmux"
 link_dotfile "tmux/tmux.conf" ".tmux.conf"
 link_dotfile "vim/vim" ".vim"
 link_dotfile "vim/vimrc" ".vimrc"
-link_dotfile "emacs/.emacs.d/init.el" ".emacs.d/init.el"

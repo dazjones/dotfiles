@@ -1,10 +1,7 @@
 "set statusline+=col:\ %c, Pathogen baby!
-execute pathogen#infect()
+"execute pathogen#infect()
 
 let mapleader=','
-
-" Map NerdTree to Ctrl-e
-map <C-e> :NERDTreeToggle<CR>
 
 " Get rid of those pesky swap files
 set nobackup
@@ -56,44 +53,13 @@ colorscheme nord
 " Limit line length for git commit messages
 au FileType gitcommit set tw=72
 
-
 " Set sensible yml syntax
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
 
-" Add ctrlp runtime
-set runtimepath^=~/.vim/bundle/ctrlp/ctrlp.vim
-
-set mouse=a
-set nofoldenable
-
-let g:concourse_tags_autosave = 0
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = []
-let g:NERDTreeStatusline = ''
-
-" Automaticaly close nvim if NERDTree is only thing left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 " open new split panes to right and below
 set splitright
 set splitbelow
-" turn terminal to normal mode with escape
-tnoremap <Esc> <C-\><C-n>
-" start terminal in insert mode
-au BufEnter * if &buftype == 'terminal' | :startinsert | endif
-" open terminal on ctrl+n
-function! OpenTerminal()
-  split term://zsh
-  resize 10
-endfunction
-nnoremap <c-n> :call OpenTerminal()<CR>
-
-set encoding=utf-8
-let g:airline_powerline_fonts = 1
-
-let g:auto_save = 1  " enable AutoSave on Vim startup
 
 " Up the undo / redo limit
 set history=1000
@@ -124,7 +90,6 @@ function! <SID>CleanWhitespace()
 endfunction
 command CleanWhitespace call <SID>CleanWhitespace():
 
-
 " Cut, copy and paste using the real clipboard
 vnoremap <leader>y "+y
 vnoremap <leader>x "+x
@@ -139,8 +104,3 @@ if has("clipboard")
     set clipboard+=unnamedplus
   endif
 endif
-
-" highlight character at 80 columns
-highlight ColorColumn ctermbg=DarkGrey
-call matchadd('ColorColumn', '\%81v', 100)
-
