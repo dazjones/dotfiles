@@ -8,6 +8,8 @@ It is probably of little use to other folk, but there may be things in here you 
 
 ## Usage
 
+Clone this repo
+`git submodule update -i`
 Run `./install.sh` to link dotfiles. 
 
 ## Environment
