@@ -34,6 +34,12 @@ It is probably of little use to other folk, but there may be things in here you 
     stow -t ${HOME} vim
     stow -t ${HOME} zsh
     ```
+
+    You can also use the `-v` flag to increase verbosity and get some sense of what it is doing:
+
+    ```
+    stow -vv -t ${HOME} package_name
+    ```
 ## Environment
 
 Tested on MacOS and various Linux distros.
