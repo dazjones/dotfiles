@@ -47,8 +47,8 @@ set lbr
 " OSX stupid backspace fix
 set backspace=indent,eol,start
 
-" Change colorscheme from default to delek
-colorscheme catppuccin_frappe
+" Change colorscheme from default to slate
+colorscheme slate
 
 " Limit line length for git commit messages
 au FileType gitcommit set tw=72
