@@ -23,8 +23,8 @@ if dependency_exists hstr; then
 fi
 
 # Add aliases
-if [ -f ~/.aliases ]; then
-  source ~/.aliases
+if [ -f ~/.zsh_aliases ]; then
+  source ~/.zsh_aliases
 fi
 
 # Add env secrets

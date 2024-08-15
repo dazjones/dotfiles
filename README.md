@@ -10,8 +10,12 @@ It is probably of little use to other folk, but there may be things in here you 
 
 Clone this repo
 `git submodule update -i`
-Run `./install.sh` to link dotfiles. 
 
+Use "stow" to link the packages (https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html)
+```sh
+stow vim
+stow zsh
+```
 ## Environment
 
 Tested on MacOS and various Linux distros.
