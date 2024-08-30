@@ -1,3 +1,21 @@
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1) ;disable visible scroll bar
+(tool-bar-mode -1) ;disable the toolbar
+(tooltip-mode -1) ;disable tooltips
+(set-fringe-mode 10) ;give some breathing room 
+(set-face-attribute 'fringe nil :background nil)
+
+(menu-bar-mode -1) ;hide the menu bar
+
+(set-face-attribute 'default nil :family "RobotoMono Nerd Font" :height 112)
+
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;;auto pair
+(electric-pair-mode t)
+
 ;; Initialize package sources
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -21,9 +39,6 @@
 
 ;; no-littering keeps emacs files in one place
 (use-package no-littering)
-
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Vim Bindings
 (use-package evil
@@ -108,3 +123,41 @@
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+	doom-themes-enable-italic t)
+  (load-theme 'doom-solarized-light t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+(use-package auto-complete
+  :ensure t)
+
+(use-package neotree
+  :ensure t)
+
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1) )
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(magit neotree doom-modeline doom-themes which-key use-package no-littering markdown-mode ivy-prescient helpful general evil-collection counsel)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
