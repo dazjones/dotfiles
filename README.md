@@ -33,6 +33,7 @@ It is probably of little use to other folk, but there may be things in here you 
     ```sh
     stow -t ${HOME} vim
     stow -t ${HOME} zsh
+    stow -t ${HOME} emacs
     ```
 
     You can also use the `-v` flag to increase verbosity and get some sense of what it is doing:
