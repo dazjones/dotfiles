@@ -174,13 +174,15 @@
     :prefix "SPC"
         :global-prefix "C-SPC"))
 
+(use-package docker-compose-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit neotree doom-modeline doom-themes which-key use-package no-littering markdown-mode ivy-prescient helpful general evil-collection counsel)))
+   '(all-the-icons docker-compose-mode magit neotree doom-modeline doom-themes which-key use-package no-littering markdown-mode ivy-prescient helpful general evil-collection counsel)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
