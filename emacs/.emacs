@@ -148,6 +148,32 @@
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1) )
 
+(dj/leader-keys
+ "g"   '(:ignore t :which-key "git")
+ "gs"  'magit-status
+ "gd"  'magit-diff-unstaged
+ "gc"  'magit-branch-or-checkout
+ "gl"   '(:ignore t :which-key "log")
+ "glc" 'magit-log-current
+ "glf" 'magit-log-buffer-file
+ "gb"  'magit-branch
+ "gP"  'magit-push-current
+ "gp"  'magit-pull-branch
+ "gf"  'magit-fetch
+ "gF"  'magit-fetch-all
+ "gr"  'magit-rebase
+ "n" '(:ignore t :which-key "neotree")
+ "nt" 'neotree-toggle
+ )
+
+(use-package general
+  :after evil
+  :config
+  (general-create-definer dj/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+        :global-prefix "C-SPC"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
