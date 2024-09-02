@@ -8,7 +8,7 @@
 
 (menu-bar-mode -1) ;hide the menu bar
 
-(set-face-attribute 'default nil :family "RobotoMono Nerd Font" :height 112)
+(set-face-attribute 'default nil :family "RobotoMono Nerd Font" :height 160)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -176,13 +176,33 @@
 
 (use-package docker-compose-mode)
 
+(setq org-agenda-files (directory-files-recursively "~/emacs/org/" "\\.org$"))
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/emacs/org/roam/"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  
+  (require 'org-roam-protocol))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons docker-compose-mode magit neotree doom-modeline doom-themes which-key use-package no-littering markdown-mode ivy-prescient helpful general evil-collection counsel)))
+   '(auto-complete counsel docker-compose-mode doom-modeline doom-themes
+		   evil-collection general helpful ivy-prescient magit
+		   markdown-mode neotree no-littering org-roam)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
