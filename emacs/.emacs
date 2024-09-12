@@ -1,20 +1,9 @@
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1) ;disable visible scroll bar
-(tool-bar-mode -1) ;disable the toolbar
 (tooltip-mode -1) ;disable tooltips
-(set-fringe-mode 10) ;give some breathing room 
-(set-face-attribute 'fringe nil :background nil)
-
-(menu-bar-mode -1) ;hide the menu bar
-
-(set-face-attribute 'default nil :family "RobotoMono Nerd Font" :height 160)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-;;auto pair
-(electric-pair-mode t)
 
 ;; Initialize package sources
 (require 'package)
@@ -31,66 +20,30 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+(set-face-attribute 'default nil :height 130)
+
 (require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; Set default directories
-(setq default-directory "~/emacs/")
+(setq default-directory "~/emacs/org/")
 
 ;; no-littering keeps emacs files in one place
 (use-package no-littering)
 
-;; Vim Bindings
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+(require 'org)
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-
-(use-package general
-  :after evil
-  :config
-  (general-create-definer dj/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-        :global-prefix "C-SPC"))
-
+(add-hook 'org-insert-heading-hook
+    (lambda()
+    (save-excursion
+              (org-back-to-heading)
+              (org-set-property "CREATED" (format-time-string "%Y-%m-%d %T")))))
 (use-package which-key
   :defer 0
   :diminish which-key-mode
   :config
   (which-key-mode)
   (setq which-key-idle-delay 1))
-
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("C-l" . ivy-alt-done)
-	 ("C-j" . ivy-next-line)
-	 ("C-k" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-l" . ivy-done)
-	 ("C-d" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
 
 (use-package counsel
   :bind (("C-M-j" . 'counsel-switch-buffer)
@@ -119,90 +72,12 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package doom-themes
-  :ensure t
-  :config
-  (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t)
-  (load-theme 'doom-solarized-light t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
-
-(use-package auto-complete
-  :ensure t)
-
-(use-package neotree
-  :ensure t)
-
-(use-package magit
-  :commands (magit-status magit-get-current-branch)
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1) )
-
-(dj/leader-keys
- "g"   '(:ignore t :which-key "git")
- "gs"  'magit-status
- "gd"  'magit-diff-unstaged
- "gc"  'magit-branch-or-checkout
- "gl"   '(:ignore t :which-key "log")
- "glc" 'magit-log-current
- "glf" 'magit-log-buffer-file
- "gb"  'magit-branch
- "gP"  'magit-push-current
- "gp"  'magit-pull-branch
- "gf"  'magit-fetch
- "gF"  'magit-fetch-all
- "gr"  'magit-rebase
- "n" '(:ignore t :which-key "neotree")
- "nt" 'neotree-toggle
- )
-
-(use-package general
-  :after evil
-  :config
-  (general-create-definer dj/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-        :global-prefix "C-SPC"))
-
-(use-package docker-compose-mode)
-
-(setq org-agenda-files (directory-files-recursively "~/emacs/org/" "\\.org$"))
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory (file-truename "~/emacs/org/roam/"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :config
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-db-autosync-mode)
-  
-  (require 'org-roam-protocol))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(auto-complete counsel docker-compose-mode doom-modeline doom-themes
-		   evil-collection general helpful ivy-prescient magit
-		   markdown-mode neotree no-littering org-roam)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
