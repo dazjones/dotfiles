@@ -2,9 +2,6 @@
 
 (tooltip-mode -1) ;disable tooltips
 
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
 ;; Initialize package sources
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -20,7 +17,7 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 110)
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -33,44 +30,21 @@
 
 (require 'org)
 
-(add-hook 'org-insert-heading-hook
-    (lambda()
-    (save-excursion
-              (org-back-to-heading)
-              (org-set-property "CREATED" (format-time-string "%Y-%m-%d %T")))))
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 1))
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 
-(use-package counsel
-  :bind (("C-M-j" . 'counsel-switch-buffer)
-	 :map minibuffer-local-map
-	 ("C-r" . 'counsel-minibuffer-history))
-  :custom
-  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-  :config
-  (counsel-mode 1))
+(setq org-capture-templates
+      '(    
+        ("m" "Meeting"
+         entry (file+datetree "~/emacs/org/meetings.org")
+         "* %? \n:Created: %T\n** Attendees\n*** \n** Notes\n** Action Items\n*** TODO [#A] "
+         :tree-type week
+         :clock-in t
+         :clock-resume t
+         :empty-lines 0)
+        ))
 
-(use-package ivy-prescient
-  :after counsel
-  :custom
-  (ivy-prescient-enable-filtering nil)
-  :config
-    (ivy-prescient-mode 1))
-
-(use-package helpful
-  :commands (helpful-callable helpful-variable helpful-command helpful-key)
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
