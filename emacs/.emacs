@@ -38,7 +38,7 @@
       '(    
         ("m" "Meeting"
          entry (file+datetree "~/emacs/org/meetings.org")
-         "* %? \n:Created: %T\n** Attendees\n*** \n** Notes\n** Action Items\n*** TODO [#A] "
+         "* %? \n:Created: %T\n** Attendees\n- \n** Notes\n- Action Items\n*** TODO [#A] "
          :tree-type week
          :clock-in t
          :clock-resume t
