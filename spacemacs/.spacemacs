@@ -50,14 +50,8 @@ This function should only modify configuration layer settings."
           org-startup-truncated nil
           org-enable-roam-support t
           org-enable-roam-ui t)
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;;pandoc
      spell-checking
-     ;;syntax-checking
      themes-megapack
-     ;; version-control
      treemacs)
 
 
@@ -69,9 +63,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(
-                                      ;;ox-pandoc
-                                      )
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -236,9 +228,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one-light
-                         spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(doom-one-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -371,7 +361,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default t) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
 
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' to obtain fullscreen
@@ -449,7 +439,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis nil
+   dotspacemacs-smart-closing-parenthesis t
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -522,7 +512,7 @@ It should only modify the values of Spacemacs settings."
    ;; which major modes have whitespace cleanup enabled or disabled
    ;; by default.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'trailing
 
    ;; If non-nil activate `clean-aindent-mode' which tries to correct
    ;; virtual indentation of simple modes. This can interfere with mode specific
@@ -590,11 +580,12 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; Add pdflatex to the PATH for exporting reports
   (getenv "PATH")
-  (setenv "PATH"
-          (concat
-           "/Library/TeX/texbin/" ":"
-           (getenv "PATH")))
+  (setenv "PATH" (concat "/Library/TeX/texbin/" ":" (getenv "PATH")))
+
+  ;; Don't ask for confirmation opening symlinks
+  (setq vc-follow-symlinks t)
 
   ;; ------------------------------------------
   ;; ---------- 1. UI CUSTOMISATIONS ----------
