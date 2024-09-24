@@ -63,7 +63,9 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      olivetti
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -228,7 +230,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one-light)
+   dotspacemacs-themes '(doom-gruvbox)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -361,7 +363,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default t) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
 
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' to obtain fullscreen
@@ -587,6 +589,11 @@ before packages are loaded."
   ;; Don't ask for confirmation opening symlinks
   (setq vc-follow-symlinks t)
 
+  ;; Enable auto-olivetti mode
+  (add-hook
+   'text-mode-hook
+   'olivetti-mode)
+
   ;; ------------------------------------------
   ;; ---------- 1. UI CUSTOMISATIONS ----------
   ;; ------------------------------------------
@@ -611,6 +618,9 @@ before packages are loaded."
     ;; Add all org files to org-agenda
     (setq org-agenda-files (directory-files-recursively"~/emacs/org/" "\\.org$"))
 
+    (setq org-startup-truncated nil)
+    (setq-default fill-column 80)
+
     ;; -----------------------------------------
     ;; ---------- 2.2 ORG-ROAM SET UP ----------
     ;; -----------------------------------------
@@ -623,32 +633,6 @@ before packages are loaded."
       :bind (("C-c n i" . org-roam-node-insert-immediate))
       :config
       (org-roam-db-autosync-mode))
-
-    (use-package consult-org-roam
-      :ensure t
-      :after org-roam
-      :init
-      (require 'consult-org-roam)
-      ;; Activate the minor mode
-      (consult-org-roam-mode 1)
-      :custom
-      ;; Use `ripgrep' for searching with `consult-org-roam-search'
-      (consult-org-roam-grep-func #'consult-ripgrep)
-      ;; Configure a custom narrow key for `consult-buffer'
-      (consult-org-roam-buffer-narrow-key ?r)
-      ;; Display org-roam buffers right after non-org-roam buffers
-      ;; in consult-buffer (and not down at the bottom)
-      (consult-org-roam-buffer-after-buffers t)
-      :config
-      ;; Eventually suppress previewing for certain functions
-      (consult-customize
-       consult-org-roam-forward-links
-       :preview-key "M-.")
-      :bind
-      ;; Define some convenient keybindings as an addition
-      ("C-c n b" . consult-org-roam-backlinks)
-      ("C-c n B" . consult-org-roam-backlinks-recursive)
-      ("C-c n l" . consult-org-roam-forward-links))
 
     ;; Follow the links
     (setq org-return-follows-link  t)
@@ -667,7 +651,6 @@ before packages are loaded."
     ;; --------------------------------------------------------
     ;; ---------- 2.3 ORG-AGENDA TODO CUSTOMISATIONS ----------
     ;; --------------------------------------------------------
-
     (setq org-agenda-skip-unavailable-files t) ;; Auto skip unavailable files
 
     ;; TODO states
@@ -683,10 +666,8 @@ before packages are loaded."
             ("DONE" . (:foreground "LimeGreen" :weight bold))
             ))
 
-
     ;; When a TODO is set to a done state, record a timestamp
     (setq org-log-done 'time)
-
 
     ;; -----------------------------------------------
     ;; ---------- 2.4 ORG-CAPTURE TEMPLATES ----------
@@ -1272,12 +1253,12 @@ This function is called at the very end of Spacemacs initialization."
                           molokai-theme monochrome-theme monokai-theme multi-line
                           mustang-theme mwim nameless naquadah-theme
                           noctilux-theme obsidian-theme occidental-theme
-                          oldlace-theme omtose-phellack-theme open-junk-file
-                          org-cliplink org-contrib org-download org-mime org-msg
-                          org-pomodoro org-present org-projectile org-rich-yank
-                          org-roam-ui org-superstar organic-green-theme
-                          orgit-forge overseer ox-pandoc ox-report pandoc-mode
-                          paradox password-generator pcre2el
+                          oldlace-theme olivetti omtose-phellack-theme
+                          open-junk-file org-cliplink org-contrib org-download
+                          org-mime org-msg org-pomodoro org-present org-projectile
+                          org-rich-yank org-roam-ui org-superstar
+                          organic-green-theme orgit-forge overseer ox-pandoc
+                          ox-report pandoc-mode paradox password-generator pcre2el
                           phoenix-dark-mono-theme phoenix-dark-pink-theme
                           planet-theme popwin prettier-js professional-theme
                           pug-mode purple-haze-theme quickrun railscasts-theme
